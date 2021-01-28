@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PostController!{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block body %}
     {% if app.user %}
@@ -8,6 +8,6 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% else %}
-        <div class="warning">You sulold to login</div>
+        <div class="warning">You should to login</div>
     {% endif %}
 {% endblock %}
