@@ -3,9 +3,49 @@
 {% block title %}{{ title }}!{% endblock %}
 
 {% block body %}
+    <div class="container-lg d-flex justify-content-around align-items-center vh-100">
+        <div class="col-12 col-md-6 col-lg-12 w-25 p-4 shadow-lg form-container">
+            <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-    <h1>{{ title }}</h1>
+            {{ form_start(form) }}
 
-    {{ form(form) }}
+            <div class="form-error">
+                {{ form_errors(form.username) }}
+            </div>
 
+            <div class="form-error">
+                {{ form_errors(form.plainPassword.first) }}
+            </div>
+
+            <div class="form-error">
+                {{ form_errors(form.plainPassword.second) }}
+            </div>
+
+
+            <div class="mb-3">
+                {{ form_label(form.username, null, {
+                    'label': 'Your username',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+                {{ form_widget(form.username, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.plainPassword.first, null, {
+                    'label': 'Your password',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.plainPassword.first, null, {
+                    'label': 'Repeat password',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}} ) }}
+            </div>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary w-100 mt-3'}} ) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}
