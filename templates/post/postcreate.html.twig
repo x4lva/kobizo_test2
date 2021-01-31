@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-12 col-lg-6 col-md-6 p-3 shadow mt-5 rounded-2">
+            <h1 class="h3 mb-3 font-weight-normal text-uppercase">Post create</h1>
+
+            {{ form_start(form, {'method': 'POST' , 'attr': {'id': 'postcreateform', 'onsubmit': 'return false;'}}) }}
+                {{ form_label(form.title, null, {
+                    'label': 'Post title:',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}} ) }}
+
+            {{ form_start(form) }}
+            {{ form_label(form.content, null, {
+                'label': 'Post content:',
+                'label_attr': {'class': 'form-label'}
+            }) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control summernote'}} ) }}
+
+            <button id="postcreatesubmit" type="submit" class="btn btn-block w-100 mt-3 btn-primary">
+                Save
+            </button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+    <div class="bg-success text-white toast d-flex align-items-center position-absolute top-0 start-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        summernoteInit();
+
+        $(document).on("click", "#postcreatesubmit", function(e) {
+            e.preventDefault();
+            ajaxRequest("/post/create", $("#postcreateform"));
+        });
+    </script>
+
+{% endblock %}

@@ -1,6 +1,13 @@
 .form-container{
     border-radius: 5px;
 }
-.form-error{
-    color: #DC3545;
+
+.toast{
+    margin-top: 100px !important;
+    margin-left: 10px;
+}
+.alert ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }

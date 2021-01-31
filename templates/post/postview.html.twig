@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-12 col-md-6 col-lg-8 mt-2">
+            <h1 class="border-start border-primary border-5 p-3 text-uppercase">{{ post.title }}</h1>
+
+            {% for meta in metas %}
+
+                <h6 class="border-start border-dark border-5 ps-3">{{ meta.metaKey }}: {{ meta.value }}</h6>
+
+            {% endfor %}
+
+            <div>
+                {{ post.content|raw }}
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="d-flex flex-column position-fixed bottom-0 end-0 me-5 mb-5">
+        <button type="button" id="myInput" class="btn btn-primary text-white text-uppercase mb-2" data-bs-toggle="modal" data-bs-target="#myModal">
+            <i class="fas fa-plus-circle"></i>
+        </button>
+        <a href="postupdate/{{ post.id }}" class="btn btn-primary text-white text-uppercase" data-bs-toggle="modal">
+            <i class="fas fa-edit"></i>
+        </a>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add meta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form, {'method': 'POST' , 'attr': {'id': 'postcreateform', 'onsubmit': 'return false;'}}) }}
+                    {{ form_label(form.meta_key, null, {
+                        'label': 'Meta key:',
+                        'label_attr': {'class': 'form-label'}
+                    }) }}
+                    {{ form_widget(form.meta_key, {'attr': {'class': 'form-control'}} ) }}
+
+                    {{ form_start(form) }}
+                    {{ form_label(form.value, null, {
+                        'label': 'Meta value:',
+                        'label_attr': {'class': 'form-label'}
+                    }) }}
+                    {{ form_widget(form.value, {'attr': {'class': 'form-control'}} ) }}
+
+                    <button id="postcreatesubmit" type="submit" class="btn btn-block w-100 mt-3 btn-primary">
+                        Save
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-success text-white toast d-flex align-items-center position-fixed top-0 start-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        var myModal = $('#myModal');
+        var myInput = $('#myInput');
+
+        myModal.addEventListener('shown.bs.modal', function () {
+            myInput.focus()
+        });
+
+        $(document).on("click", "#postcreatesubmit", function(e){
+            e.preventDefault();
+            ajaxRequest("/post/postview/createmeta/{{ post.id }}", $("#postcreateform"));
+        });
+    </script>
+
+{% endblock %}

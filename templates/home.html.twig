@@ -3,51 +3,31 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid" >
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Post list</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Post create</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Meta create</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    {% if app.user %}
-                        <a href="{{ path('app_logout') }}" class="btn btn-outline-info" type="submit">Logout</a>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-success" type="submit">Login</a>
-                    {% endif %}
-
-                </form>
-            </div>
-        </div>
-    </nav>
+    {% include 'menu.html.twig' %}
     {% if app.user %}
-
-    {% else %}
-        <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Danger card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="container-fluid d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="card text-white bg-success mb-3 mt-5 w-100">
+                    <div class="card-header">Success</div>
+                    <div class="card-body">
+                        <h5 class="card-title">You are login in</h5>
+                        <p class="card-text">You have access to edit, create, and view articles.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    {% else %}
+        <div class="container-fluid d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="card text-white bg-danger mb-3 mt-5 w-100">
+                    <div class="card-header">Error</div>
+                    <div class="card-body">
+                        <h5 class="card-title">You should to login</h5>
+                        <p class="card-text">To access, edit, and view articles, you must create and log in to your account.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     {% endif %}
 {% endblock %}

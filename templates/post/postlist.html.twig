@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-12 col-md-6 col-lg-6 w-75 mt-3">
+            <div class="list-group">
+                {% for post in pagination %}
+                    {% set content = post.content|length > 350 ? post.content|slice(0, 350) ~ '...' : post.content %}
+
+                        <a href="{{ path('post_view') }}?id={{ post.id }}" class="list-group-item list-group-item-action" aria-current="true">
+
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ post.title }}</h5>
+                                <small>{{ post.createdat|date("m.d.Y") }}</small>
+                            </div>
+                            <div>
+                                <p class="mb-1">{{ content|striptags }}</p>
+                            </div>
+                            <small class="badge bg-primary rounded-pill">{{ post.status }}</small>
+
+                        </a>
+
+                {% endfor %}
+            </div>
+
+            <div class="navigation d-flex justify-content-center mt-3">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

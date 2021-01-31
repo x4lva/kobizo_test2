@@ -44,13 +44,13 @@ class RegisterController extends BaseController
             $user->setRoles(["ROLE_USER"]);
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Пользователь создан!');
             return $this->redirectToRoute('app_login');
         }
 
         $forRender = parent::renderDefault();
-        $forRender['title'] = 'Форма создания пользователя';
+        $forRender['title'] = 'Register';
         $forRender['form'] = $form->createView();
+
 
         return $this->render('user/register.html.twig', $forRender);
     }

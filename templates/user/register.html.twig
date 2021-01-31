@@ -8,19 +8,9 @@
             <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
             {{ form_start(form) }}
-
-            <div class="form-error">
-                {{ form_errors(form.username) }}
-            </div>
-
-            <div class="form-error">
+            <div class="alert alert-danger p-2 ps-3">
                 {{ form_errors(form.plainPassword.first) }}
             </div>
-
-            <div class="form-error">
-                {{ form_errors(form.plainPassword.second) }}
-            </div>
-
 
             <div class="mb-3">
                 {{ form_label(form.username, null, {
