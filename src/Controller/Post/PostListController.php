@@ -5,6 +5,7 @@ namespace App\Controller\Post;
 
 
 use App\Controller\BaseController;
+use App\Entity\Metas;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +28,11 @@ class PostListController extends BaseController
 
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository(Post::class)
+        $query = $em->getRepository('App:Post')
             ->createQueryBuilder('p')
             ->orderBy('p.created_at', 'DESC')
             ->getQuery()
-            ->getResult();;
-
+            ->getResult();
 
         $pagination = $paginator->paginate(
             $query,
@@ -41,7 +41,6 @@ class PostListController extends BaseController
         );
 
         $forRender["pagination"] = $pagination;
-        $forRender["query"] = $query;
 
         return $this->render("post/postlist.html.twig", $forRender);
     }

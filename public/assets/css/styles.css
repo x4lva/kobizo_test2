@@ -11,3 +11,10 @@
     padding: 0;
     margin: 0;
 }
+
+.form-error ul{
+    padding: 0.5rem;
+    padding-left: 1rem;
+    border: 1px #f5c2c7 solid;
+    border-radius: .25rem;
+}

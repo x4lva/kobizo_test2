@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %} {{ title }} {% endblock %}
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-12 col-lg-6 col-md-6 p-3 shadow mt-5 rounded-2">
+            <h1 class="h3 mb-3 font-weight-normal text-uppercase">Meta update</h1>
+
+            {{ form_start(form, {'method': 'POST' , 'attr': {'id': 'form', 'onsubmit': 'return false;'}}) }}
+                {{ form_label(form.meta_key, null, {
+                    'label': 'Meta key:',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+                {{ form_widget(form.meta_key, {'attr': {'class': 'form-control'}} ) }}
+
+                {{ form_start(form) }}
+                {{ form_label(form.value, null, {
+                    'label': 'Meta value:',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+                {{ form_widget(form.value, {'attr': {'class': 'form-control'}} ) }}
+
+                <button id="formsubmit" type="submit" class="btn btn-block w-100 mt-3 btn-primary">
+                    Save
+                </button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+    <div class="bg-success text-white toast d-flex align-items-center position-fixed top-0 start-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body"></div>
+        <button type="button" class="btn-close ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).on("click", "#formsubmit", function(e){
+            e.preventDefault();
+            ajaxRequest("/post/postmeta/{{ meta.id }}", $('#form'));
+        });
+
+    </script>
+{% endblock %}

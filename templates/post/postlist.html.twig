@@ -21,8 +21,15 @@
                             <div>
                                 <p class="mb-1">{{ content|striptags }}</p>
                             </div>
-                            <small class="badge bg-primary rounded-pill">{{ post.status }}</small>
-
+                            <div>
+                                {% if post.metas %}
+                                    {% for meta in  post.metas  %}
+                                        <small class="badge bg-primary rounded-pill">
+                                            {{ meta.metaKey }} : {{ meta.value }}
+                                        </small>
+                                    {% endfor %}
+                                {%  endif %}
+                            </div>
                         </a>
 
                 {% endfor %}

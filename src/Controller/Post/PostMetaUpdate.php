@@ -14,63 +14,62 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PostViewController extends BaseController
+class PostMetaUpdate extends BaseController
 {
 
     /**
-     * @Route("/post/postview", name="post_view", methods={"GET"})
-     * @return Response
-     */
-    public function postView(){
-
-        $form = $this->createForm(MetasType::class);
-
-
-        $forRender = parent::renderDefault();
-        $forRender["title"] = "Post View";
-
-        $em = $this->getDoctrine()->getManager();
-
-
-        $post = $em->getRepository('App:Post')->find($_GET['id']);
-        $metas = $em->getRepository('App:Metas')->findBy(["post"=>$post->getId()]);
-
-        $forRender["post"] = $post;
-        $forRender["form"] = $form->createView();
-        $forRender["metas"] = $metas;
-
-
-        return $this->render("post/postview.html.twig", $forRender);
-    }
-
-    /**
-     * @Route("/post/postview/createmeta/{id}", name="post_view_request", methods={"POST"})
-     * @param Request $request
+     * @Route("/post/postmeta/{id}", name="meta_update", methods={"GET"})
      * @param int $id
      * @return Response
      */
-    public function postViewPost(Request $request, int $id){
+    public function postUpdate(int $id){
 
         $meta = new Metas();
+
+        $forRender = parent::renderDefault();
+        $forRender["title"] = "Meta Update";
+
+        $em = $this->getDoctrine()->getManager();
+
+        $meta = $em->getRepository('App:Metas')->find($id);
+
+        $form = $this->createForm(MetasType::class, $meta);
+
+        $forRender["meta"] = $meta;
+        $forRender["form"] = $form->createView();
+
+        return $this->render("post/postmetaupdate.html.twig", $forRender);
+    }
+
+
+    /**
+     * @Route("/post/postmeta/{id}", name="meta_update_request", methods={"POST"})
+     * @param Metas $meta
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function postUpdateRequest(Metas $meta, Request $request){
+
+        $status = "error";
 
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(MetasType::class, $meta);
         $form->handleRequest($request);
 
-        $status = "error";
+        if ($form->isSubmitted()){
 
-        if ( $form->isSubmitted() && $form->isValid() ){
-
-            $post = $em->getRepository('App:Post')->find($id);
-            $meta->setPost($post);
+            $meta = $form->getData();
 
             $em->persist($meta);
 
             try {
                 $em->flush();
                 $status = "success";
-            } catch (\Exception $e) {}
+            }catch (\Exception $e){
+                $status = $e;
+            }
 
         }else{
             $status = "error";
@@ -79,5 +78,4 @@ class PostViewController extends BaseController
         return new JsonResponse($status);
 
     }
-
 }

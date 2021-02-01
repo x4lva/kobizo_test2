@@ -8,8 +8,8 @@
             <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
             {{ form_start(form) }}
-            <div class="alert alert-danger p-2 ps-3">
-                {{ form_errors(form.plainPassword.first) }}
+            <div class="form-error alert alert-danger p-0 ps-0 border-0">
+                {{ form_errors(form.plainPassword.first, {'attr': {'class': ''}}) }}
             </div>
 
             <div class="mb-3">
@@ -33,6 +33,7 @@
                 }) }}
                 {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}} ) }}
             </div>
+            <a href="{{ path('app_login') }}" class="link-primary">Log in your account</a>
             {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary w-100 mt-3'}} ) }}
 
             {{ form_end(form) }}
