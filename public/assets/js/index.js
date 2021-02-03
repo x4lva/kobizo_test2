@@ -1,3 +1,5 @@
+
+// Form data serialising
 $.fn.serializeObject = function()
 {
     var o = {};
@@ -15,6 +17,7 @@ $.fn.serializeObject = function()
     return o;
 };
 
+// Creating summernote
 function summernoteInit(){
     $('.summernote').summernote({
         placeholder: 'Print here post text',
@@ -29,6 +32,8 @@ function summernoteInit(){
     });
 }
 
+
+// Ajax request function
 function ajaxRequest(url, form) {
     var form_data = form.serializeObject();
 
@@ -41,12 +46,14 @@ function ajaxRequest(url, form) {
         data: form_data,
         success:function(data){
             if(data == 'error'){
+                // Creating success toast
                 $(document).ready(function(){
                     $('.toast .toast-body').text("Please enter all data");
                     $('.toast').removeClass("bg-success").addClass("bg-danger").toast('show');
                 });
             }
             if(data == 'success'){
+                // Creating error toast
                 $(document).ready(function(){
                     $('.toast .toast-body').text("Success");
                     $('.toast').removeClass("bg-danger").addClass("bg-success").toast('show');

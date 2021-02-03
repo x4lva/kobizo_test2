@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostUpdateController extends BaseController
 {
 
+
+    // Post update page
     /**
      * @Route("/post/postupdate/{id}", name="post_update", methods={"GET"})
      * @param int $id
@@ -26,28 +28,23 @@ class PostUpdateController extends BaseController
 
         $post = new Post();
 
-
-
         $forRender = parent::renderDefault();
         $forRender["title"] = "Post Update";
 
         $em = $this->getDoctrine()->getManager();
 
-
-
         $post = $em->getRepository('App:Post')->find($id);
 
         $form = $this->createForm(PostType::class, $post);
 
-
         $forRender["post"] = $post;
         $forRender["form"] = $form->createView();
-
 
         return $this->render("post/postupdate.html.twig", $forRender);
     }
 
 
+    // Post update POST request
     /**
      * @Route("/post/postupdate/{id}", name="post_update_request", methods={"POST"})
      * @param Post $post
@@ -72,6 +69,7 @@ class PostUpdateController extends BaseController
             $em->persist($post);
 
             try {
+                // Updating post
                 $em->flush();
                 $status = "success";
             }catch (\Exception $e){
@@ -82,6 +80,7 @@ class PostUpdateController extends BaseController
             $status = "error";
         }
 
+        // Sending data to ajax function
         return new JsonResponse($status);
 
     }

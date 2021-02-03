@@ -6,9 +6,7 @@ namespace App\Controller\Post;
 
 use App\Controller\BaseController;
 use App\Entity\Metas;
-use App\Entity\Post;
 use App\Form\MetasType;
-use App\Form\PostType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostViewController extends BaseController
 {
 
+    // Getting data about current post
     /**
-     * @Route("/post/postview", name="post_view", methods={"GET"})
+     * @Route("/post/postview/{id}", name="post_view", methods={"GET"})
+     * @param int $id
      * @return Response
      */
-    public function postView(){
+    public function postView(int $id){
 
         $form = $this->createForm(MetasType::class);
 
@@ -32,7 +32,7 @@ class PostViewController extends BaseController
         $em = $this->getDoctrine()->getManager();
 
 
-        $post = $em->getRepository('App:Post')->find($_GET['id']);
+        $post = $em->getRepository('App:Post')->find($id);
         $metas = $em->getRepository('App:Metas')->findBy(["post"=>$post->getId()]);
 
         $forRender["post"] = $post;
@@ -43,6 +43,7 @@ class PostViewController extends BaseController
         return $this->render("post/postview.html.twig", $forRender);
     }
 
+    // Create meta form
     /**
      * @Route("/post/postview/createmeta/{id}", name="post_view_request", methods={"POST"})
      * @param Request $request
@@ -68,6 +69,7 @@ class PostViewController extends BaseController
             $em->persist($meta);
 
             try {
+                // Adding new meta to database
                 $em->flush();
                 $status = "success";
             } catch (\Exception $e) {}
@@ -76,6 +78,7 @@ class PostViewController extends BaseController
             $status = "error";
         }
 
+        // Sending data to ajax function
         return new JsonResponse($status);
 
     }

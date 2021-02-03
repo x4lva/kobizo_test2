@@ -9,17 +9,14 @@ use App\Entity\Post;
 use App\Form\PostType;
 use DateTime;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PostCreateController extends BaseController
 {
-
-
+    // Form create page
     /**
      * @Route("/post/create", name="post_create", methods={"GET"})
      */
@@ -29,13 +26,13 @@ class PostCreateController extends BaseController
 
         $form = $this->createForm(PostType::class);
 
-
         $forRender["form"] = $form->createView();
 
         return $this->render("post/postcreate.html.twig", $forRender);
     }
 
 
+    // Form create POST request
     /**
      * @Route("/post/create", name="post_create_request", methods={"POST"})
      * @param Request $request
@@ -53,6 +50,7 @@ class PostCreateController extends BaseController
 
         $status = "error";
 
+        // Checking for form submit
         if ( $form->isSubmitted() && $form->isValid() ){
 
             $post->setStatus("Published");
@@ -60,6 +58,7 @@ class PostCreateController extends BaseController
 
             $em->persist($post);
             try {
+                // Adding new post to database
                 $em->flush();
                 $status = "success";
             } catch (\Exception $e) {}
@@ -68,10 +67,9 @@ class PostCreateController extends BaseController
             $status = "error";
         }
 
+        // Sending data to ajax function
         return new JsonResponse($status);
 
     }
 
-
-
-    }
+}

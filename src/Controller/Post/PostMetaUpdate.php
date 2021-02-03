@@ -6,9 +6,7 @@ namespace App\Controller\Post;
 
 use App\Controller\BaseController;
 use App\Entity\Metas;
-use App\Entity\Post;
 use App\Form\MetasType;
-use App\Form\PostType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostMetaUpdate extends BaseController
 {
 
+    // Meta create page
     /**
      * @Route("/post/postmeta/{id}", name="meta_update", methods={"GET"})
      * @param int $id
@@ -42,6 +41,7 @@ class PostMetaUpdate extends BaseController
     }
 
 
+    // Meta create POST request
     /**
      * @Route("/post/postmeta/{id}", name="meta_update_request", methods={"POST"})
      * @param Metas $meta
@@ -65,6 +65,7 @@ class PostMetaUpdate extends BaseController
             $em->persist($meta);
 
             try {
+                // Updating meta
                 $em->flush();
                 $status = "success";
             }catch (\Exception $e){
@@ -75,6 +76,7 @@ class PostMetaUpdate extends BaseController
             $status = "error";
         }
 
+        // Sending data to ajax function
         return new JsonResponse($status);
 
     }

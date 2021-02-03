@@ -140,7 +140,6 @@ class Post
     public function removeMeta(Metas $meta): self
     {
         if ($this->metas->removeElement($meta)) {
-            // set the owning side to null (unless already changed)
             if ($meta->getPost() === $this) {
                 $meta->setPost(null);
             }
