@@ -12,7 +12,7 @@
                 {% for post in pagination %}
                     {% set content = post.content|length > 350 ? post.content|slice(0, 350) ~ '...' : post.content %}
 
-                        <a href="{{ path('post_view') }}?id={{ post.id }}" class="list-group-item list-group-item-action" aria-current="true">
+                        <a href="/post/postview/{{ post.id }}" class="list-group-item list-group-item-action" aria-current="true">
 
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ post.title }}</h5>
