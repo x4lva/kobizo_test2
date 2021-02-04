@@ -1,4 +1,5 @@
 # Kobizo Test Task #2
 
->kobizo.sql<
+>kobizo.sql
+
 **Database export file**
